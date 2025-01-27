@@ -11,9 +11,9 @@
 enum layers {
     _DEF = 0,
     _SYM,
+    SUNAKU_SYM,
     _NAV,
     _ADJ,
-
 };
 
 enum custom_keycodes {
@@ -40,8 +40,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           _______, KC_GRV,  KC_LT,   KC_GT,   KC_DQUO, KC_UNDS,                           KC_AMPR, KC_LBRC, KC_RBRC, DCSTRNG, KC_PERC, XXXXXXX,
           _______, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH,                           KC_PIPE, KC_LPRN, KC_RPRN, KC_COLN, KC_AT,   _______,
           _______, KC_CIRC, KC_SLSH, KC_ASTR, KC_BSLS, FLDR_UP, _______,         _______, KC_TILD, KC_LCBR, KC_RCBR, KC_DLR,  KC_QUES, _______,
-                                     _______, _______, _______, _______,          KC_ENT, MO(_ADJ),   _______, _______
+                                     _______, _______, _______, _______,         _______, MO(_ADJ),   _______, _______
       ),
+      /* [SUNAKU_SYM] = LAYOUT(
+          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+          _______, KC_GRV,  KC_LT,   KC_GT,   KC_DQUO, KC_UNDS,                           KC_AMPR, KC_LBRC, KC_RBRC, DCSTRNG, KC_PERC, XXXXXXX,
+          _______, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH,                           KC_PIPE, KC_LPRN, KC_RPRN, KC_COLN, KC_AT,   _______,
+          _______, KC_CIRC, KC_SLSH, KC_ASTR, KC_BSLS, FLDR_UP, _______,         _______, KC_TILD, KC_LCBR, KC_RCBR, KC_DLR,  KC_QUES, _______,
+                                     _______, _______, _______, _______,         _______, MO(_ADJ),   _______, _______
+      ), */
       [_NAV] = LAYOUT(
           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
           _______, XXXXXXX, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_U,                           XXXXXXX, TAB_PRV, TAB_NXT, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -181,7 +188,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   case X_CUT_:
   case C_COPY:
   case V_PASTE:
-    return 4 * TAPPING_TERM;
+    return 2 * TAPPING_TERM;
   default:
     return TAPPING_TERM;
   }
