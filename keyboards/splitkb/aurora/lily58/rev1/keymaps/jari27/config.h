@@ -42,3 +42,6 @@
 // tap hold
 #define TAPPING_TERM 190
 #define TAPPING_TERM_PER_KEY
+
+// custom
+#define JARI_WINDOWS
