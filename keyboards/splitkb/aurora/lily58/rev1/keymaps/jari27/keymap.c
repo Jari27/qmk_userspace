@@ -134,5 +134,6 @@ void keyboard_post_init_user(void) {
     // turn off liatris leds
     setPinOutput(24);
     writePinHigh(24);
+    // set background color based on whether it's connected to win/mac
     rgblight_sethsv_noeeprom(START_UP_COLOR);
 }

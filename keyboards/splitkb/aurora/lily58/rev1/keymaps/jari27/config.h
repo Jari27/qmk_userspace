@@ -44,4 +44,4 @@
 #define TAPPING_TERM_PER_KEY
 
 // custom
-#define JARI_WINDOWS
+#undef JARI_WINDOWS
