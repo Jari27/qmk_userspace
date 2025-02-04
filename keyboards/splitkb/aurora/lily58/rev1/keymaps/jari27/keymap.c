@@ -1,4 +1,6 @@
+#include "color.h"
 #include "modifiers.h"
+#include "rgb_matrix.h"
 #include QMK_KEYBOARD_H
 
 #define TAB_NXT LCTL(KC_TAB)
@@ -9,11 +11,16 @@
 #    define MOD_RJARI MOD_RCTL
 #    define LJARI LCTL
 #    define RJARI RCTL
+#    define START_UP_COLOR HSV_GREEN
+#    define OSM_WIN_MEH OSM(MOD_LGUI)
 #else
+// mac
 #    define MOD_LJARI MOD_LGUI
 #    define MOD_RJARI MOD_RGUI
 #    define LJARI LGUI
 #    define RJARI RGUI
+#    define START_UP_COLOR HSV_AZURE
+#    define OSM_WIN_MEH OSM(MOD_MEH)
 #endif /* ifdef JARI_WINDOWS */
 
 #define X_CUT_ LT(0, KC_X)
@@ -39,8 +46,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
           KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
           KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
-          KC_LSFT, KC_Z,    X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM(MOD_MEH), OSM(MOD_HYPR), KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                          OSM(MOD_LALT), OSM(MOD_LJARI), MO(_SYM),  KC_SPC,              KC_ENT, MO(_NAV), KC_BSPC, OSM(MOD_RJARI)
+          KC_LSFT, KC_Z,    X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM_WIN_MEH,  OSM(MOD_HYPR), KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+                    OSM(MOD_LALT), OSM(MOD_LJARI), MO(_SYM),  KC_SPC,             KC_ENT, MO(_NAV), KC_BSPC, OSM(MOD_RJARI)
       ),
       [_SYM] = LAYOUT(
           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
@@ -127,4 +134,5 @@ void keyboard_post_init_user(void) {
     // turn off liatris leds
     setPinOutput(24);
     writePinHigh(24);
+    rgblight_sethsv_noeeprom(START_UP_COLOR);
 }
