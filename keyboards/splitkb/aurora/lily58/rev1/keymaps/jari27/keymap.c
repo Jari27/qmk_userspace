@@ -102,11 +102,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                      _______, _______, _______, _______,         _______, MO(_CORNE_ADJ), _______, _______
       ),
+    // todo use shift with these to turn them into F keys?
       [_CORNE_NUM] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,                           XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX,                           XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F11, XXXXXXX,
-          XXXXXXX, KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, KC_F4, KC_F5, KC_F6, KC_F12, XXXXXXX,
+          XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+          XXXXXXX, KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                               _______, _______, MO(_CORNE_ADJ), _______,         _______, _______, _______, _______
       ),
     // same as ADJ
@@ -221,6 +222,7 @@ bool tap_code_with_mods(uint16_t keycode, u_int8_t mod_mask) {
 }
 
 void tap_ctl_or_cmd_with_keycode(uint16_t keycode) {
+    // used for sending ctrl/cmd + x/c/v
     // todo see if we can change this to register so we can hold it down
     if (selected_os != OS_MACOS) {
         tap_code16(LCTL(keycode));
@@ -577,8 +579,6 @@ bool oled_task_user(void) {
         render_space();            // 7
         render_layer_state_user(); // 10
         render_os();               // 12
-        // oled_set_cursor(0, 14);
-        // render_wpm();
     } else {
         // clang-format off
         static const char PROGMEM aurora_art[] = {
@@ -639,13 +639,14 @@ void keyboard_post_init_user(void) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    // red led for disabled keys
     uint8_t layer = get_highest_layer(default_layer_state);
     if (layer == _CORNE) {
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
                 uint8_t index = g_led_config.matrix_co[row][col];
                 if (index >= led_min && index < led_max && index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col, row}) == XXXXXXX) {
-                    rgb_matrix_set_color(index, rgb_matrix_get_val(), 0, 0);
+                    rgb_matrix_set_color(index, rgb_matrix_get_val() / 2, 0, 0);
                 }
             }
         }
@@ -678,5 +679,5 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
     }
     // decrease brightness
     rgb_matrix_sethsv_noeeprom(goal_color.h, goal_color.s, RGB_MATRIX_MAXIMUM_BRIGHTNESS / 2);
-    return true;
+    return true; // does nothing
 }
