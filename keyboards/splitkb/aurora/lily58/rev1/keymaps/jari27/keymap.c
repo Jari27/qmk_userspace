@@ -194,6 +194,7 @@ combo_t key_combos[] = {
     COMBO(df, KC_EQUAL), // most comfy positions for these three
     COMBO(er, KC_UNDERSCORE),
     COMBO(cv, KC_HASH),
+    COMBO(sd, KC_EXCLAIM),
     COMBO(rf, KC_PERCENT), // also relatively comfy for vim
     COMBO(ws, KC_PLUS), // numpad related: top is increase
     COMBO(sx, KC_MINUS), // bottom is decrease
@@ -639,7 +640,7 @@ void keyboard_post_init_user(void) {
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    // red led for disabled keys
+    // red led for disabled keys on default map
     uint8_t layer = get_highest_layer(default_layer_state);
     if (layer == _CORNE) {
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
