@@ -44,7 +44,7 @@ enum layers {
     _ADJ,
     _CORNE,
     _CORNE_FUN,
-    _CORNE_NUM,
+    _CORNE_NAV,
     _CORNE_ADJ,
 };
 
@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       [_DEFAULT] = LAYOUT(
           KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
           KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
-          KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
+   LCTL_T(KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
           KC_LSFT, KC_Z,    X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
                            OSM(MOD_LALT), KC_LGUI, MO(_SYM), KC_SPC,             KC_ENT,  MO(_NAV),KC_BSPC, KC_RGUI
       ),
@@ -91,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       [_CORNE] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
           KC_TAB,  KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                           KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , XXXXXXX,
-          KC_LCTL, KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                           KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, RCTL_T(KC_QUOT),
+   LCTL_T(KC_ESC), KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                           KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, RCTL_T(KC_QUOT),
           KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , OSM(MOD_CAG), OSM(MOD_HYPR), KC_N, KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
-                        OSM(MOD_LALT), KC_LGUI, MO(_CORNE_FUN), KC_SPC ,         KC_ENT , OSL(_CORNE_NUM), KC_BSPC, KC_RGUI
+                        OSM(MOD_LALT), KC_LGUI, MO(_CORNE_FUN), KC_SPC ,         KC_ENT , OSL(_CORNE_NAV), KC_BSPC, KC_RGUI
       ),
       [_CORNE_FUN] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -103,20 +103,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                      _______, _______, _______, _______,         _______, MO(_CORNE_ADJ), _______, _______
       ),
     // todo use shift with these to turn them into F keys?
-      [_CORNE_NUM] = LAYOUT(
+      [_CORNE_NAV] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
-          XXXXXXX, KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+          KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                               _______, _______, MO(_CORNE_ADJ), _______,         _______, _______, _______, _______
       ),
-    // same as ADJ
-    // TODO reorder layers to re-use adj layer
       [_CORNE_ADJ] = LAYOUT(
           QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,                     PDF(_DEFAULT), CS_SWAP_OS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, RGB_SPI, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, RGB_SPD, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                      _______, _______, _______, _______,         _______, _______, _______, _______
       ),
       // [_BACKUP] = LAYOUT(
@@ -135,19 +133,6 @@ const uint16_t PROGMEM ui_bracket_left[]  = {KC_U, KC_I, COMBO_END};
 const uint16_t PROGMEM io_bracket_right[] = {KC_I, KC_O, COMBO_END};
 const uint16_t PROGMEM jk_paren_left[]    = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM kl_paren_right[]   = {KC_K, KC_L, COMBO_END};
-// on left: =/+- (for typing numbers with calculations)
-// corne
-// to place `~!@#$%^&*()-_=+\|
-// already placed []{}();:'",<>./?
-// prios: .,-?() (prose) (already placed)
-//        _'"=#[]
-//     placing: `~!@#$%^&*-_=+\|
-//     not together = and <>!
-//     opposite ^ (l) $ (r)
-//     comfortable _=#
-//     double taps: ==
-//     from this we derive:
-//
 // vertical combos with higher tap term
 const uint16_t PROGMEM qw[]        = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM ws[]        = {KC_W, KC_S, COMBO_END}; // left hand vertical
@@ -385,7 +370,7 @@ void render_layer_state_user(void) {
     // clang-format on
     switch (get_highest_layer(layer_state | default_layer_state)) {
         case _NAV:
-        case _CORNE_NUM:
+        case _CORNE_NAV:
             oled_write_P(lower_layer, false);
             break;
         case _SYM:
