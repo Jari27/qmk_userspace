@@ -28,7 +28,8 @@
 
 // combo
 #define COMBO_TERM 20
-#define COMBO_TERM_PER_COMBO // ability to give difficult combos a larger window
+#define COMBO_TERM_PER_COMBO    // ability to give difficult combos a larger window
+#define COMBO_ONLY_FROM_LAYER 4 // all combos from corne layer
 
 // tap hold
 #define TAPPING_TERM 190

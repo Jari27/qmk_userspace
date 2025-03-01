@@ -1,27 +1,11 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include "action_layer.h"
-#include "action_util.h"
-#include "color.h"
-#include "config.h"
-#include "info_config.h"
-#include "keycodes.h"
-#include "keymap_us.h"
-#include "modifiers.h"
-#include "oled_driver.h"
-#include "os_detection.h"
-#include "process_combo.h"
-#include "quantum.h"
-#include "quantum_keycodes.h"
-#include "rgb_matrix.h"
 #include QMK_KEYBOARD_H
 
 #define TAB_NXT LCTL(KC_TAB)
 #define TAB_PRV RCS(KC_TAB)
 #define MOD_CAG (MOD_LCTL | MOD_LALT | MOD_LGUI)
 
-// making us of LT to get tap/hold decision
+// making use of LT to get tap/hold decision
+#define Z_UNDO LT(0, KC_Z)
 #define X_CUT_ LT(0, KC_X)
 #define C_COPY LT(0, KC_C)
 #define V_PASTE LT(0, KC_V)
@@ -64,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
           KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
    LCTL_T(KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
-          KC_LSFT, KC_Z,    X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+          KC_LSFT, Z_UNDO, X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
                            OSM(MOD_LALT), KC_LGUI, MO(_SYM), KC_SPC,             KC_ENT,  MO(_NAV),KC_BSPC, KC_RGUI
       ),
       [_SYM] = LAYOUT(
@@ -92,22 +76,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
           KC_TAB,  KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                           KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , XXXXXXX,
    LCTL_T(KC_ESC), KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                           KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, RCTL_T(KC_QUOT),
-          KC_LSFT, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , OSM(MOD_CAG), OSM(MOD_HYPR), KC_N, KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
+          KC_LSFT, Z_UNDO , X_CUT_ , C_COPY , V_PASTE, KC_B   , OSM(MOD_CAG), OSM(MOD_HYPR), KC_N, KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
                         OSM(MOD_LALT), KC_LGUI, MO(_CORNE_FUN), KC_SPC ,         KC_ENT , OSL(_CORNE_NAV), KC_BSPC, KC_RGUI
       ),
       [_CORNE_FUN] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_YUBI, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                      _______, _______, _______, _______,         _______, MO(_CORNE_ADJ), _______, _______
       ),
     // todo use shift with these to turn them into F keys?
       [_CORNE_NAV] = LAYOUT(
           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX, XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
-          KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+          XXXXXXX, KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                               _______, _______, MO(_CORNE_ADJ), _______,         _______, _______, _______, _______
       ),
       [_CORNE_ADJ] = LAYOUT(
@@ -129,10 +113,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // combos
 // normal
-const uint16_t PROGMEM ui_bracket_left[]  = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM io_bracket_right[] = {KC_I, KC_O, COMBO_END};
-const uint16_t PROGMEM jk_paren_left[]    = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM kl_paren_right[]   = {KC_K, KC_L, COMBO_END};
 // vertical combos with higher tap term
 const uint16_t PROGMEM qw[]        = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM ws[]        = {KC_W, KC_S, COMBO_END}; // left hand vertical
@@ -175,16 +155,15 @@ combo_t key_combos[] = {
     COMBO(jk, CS_LPRN),
     COMBO(kl, CS_RPRN),
     // left
-    COMBO(qw, KC_ESCAPE),  // freebie, does't need to be touched quickly
     COMBO(df, KC_EQUAL), // most comfy positions for these three
     COMBO(er, KC_UNDERSCORE),
     COMBO(cv, KC_HASH),
     COMBO(sd, KC_EXCLAIM),
     COMBO(rf, KC_PERCENT), // also relatively comfy for vim
-    COMBO(ws, KC_PLUS), // numpad related: top is increase
-    COMBO(sx, KC_MINUS), // bottom is decrease
-    COMBO(ed, KC_ASTERISK), // top increase
-    COMBO(dc, KC_SLASH), // bottom decrease
+    COMBO(ws, KC_MINUS), // numpad related: top is increase
+    COMBO(sx, KC_PLUS), // bottom is decrease
+    COMBO(ed, KC_SLASH), // top increase
+    COMBO(dc, KC_ASTERISK), // bottom decrease
     COMBO(fg, KC_CIRCUMFLEX), // matched with dollar
     // right
     COMBO(hj, KC_DOLLAR),
@@ -208,18 +187,16 @@ bool tap_code_with_mods(uint16_t keycode, u_int8_t mod_mask) {
 }
 
 void tap_ctl_or_cmd_with_keycode(uint16_t keycode) {
-    // used for sending ctrl/cmd + x/c/v
+    // used for sending ctrl/cmd + u/x/c/v
     // todo see if we can change this to register so we can hold it down
     if (selected_os != OS_MACOS) {
         tap_code16(LCTL(keycode));
-
     } else {
         tap_code16(LCMD(keycode));
     }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // issue right now on windows: press OSM(ctrl), hold OSM(ctrl), release OSM(ctrl) -> keeps tapped
     switch (keycode) {
         // deal with os swapping and modifying some keys
         case CS_SWAP_OS:
@@ -244,7 +221,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
-        case OSM(MOD_MEH):
+        case OSM(MOD_CAG):
+            // for windows/linux, replace CAG with OSM gui
             if (selected_os != OS_MACOS) {
                 keycode         = OSM(MOD_LGUI);
                 record->keycode = keycode;
@@ -261,6 +239,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (selected_os != OS_MACOS) {
                 keycode         = MOD_RCTL;
                 record->keycode = keycode;
+            }
+            return true;
+        case Z_UNDO:
+            if (!record->tap.count && record->event.pressed) {
+                tap_ctl_or_cmd_with_keycode(KC_Z);
+                return false;
             }
             return true;
         case X_CUT_:
@@ -330,6 +314,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case Z_UNDO:
         case X_CUT_:
         case C_COPY:
         case V_PASTE:
@@ -502,8 +487,8 @@ void render_mods_user_as_text(void) {
 }
 
 void render_os(void) {
-    // clang-format off
     // TODO move this to glcdfont and simplify
+    // clang-format off
     static const char PROGMEM apple_art[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // whitespace to center
         0xE0, 0xF0, 0xF0, 0xF0, 0xE0, 0xEC, 0xEE, 0xF7, 0xF3, 0x70, 0x20, 0x00, // apple top
@@ -538,8 +523,9 @@ void render_os(void) {
             break;
         case OS_MACOS:
         case OS_IOS:
-        case OS_UNSURE:
             oled_write_raw_P(apple_art, sizeof(apple_art));
+            break;
+        case OS_UNSURE:
             break;
     }
 }
