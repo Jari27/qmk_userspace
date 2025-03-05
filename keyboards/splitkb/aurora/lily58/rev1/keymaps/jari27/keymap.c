@@ -576,7 +576,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             uint8_t index = g_led_config.matrix_co[row][col];
             if (index >= led_min && index < led_max && index != NO_LED &&
                 keymap_key_to_keycode(layer, (keypos_t){col, row}) == XXXXXXX) {
-                rgb_matrix_set_color(index, rgb_matrix_get_val() / 2, 0, 0);
+                rgb_matrix_set_color(index, 0, 0, 0);
             }
         }
     }
