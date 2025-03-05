@@ -571,13 +571,16 @@ void keyboard_post_init_user(void) {
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     // red led for disabled keys on default map
-    uint8_t layer = get_highest_layer(layer_state | default_layer_state);
+    uint8_t layer   = get_highest_layer(layer_state | default_layer_state);
+    hsv_t   hsv     = rgb_matrix_get_hsv();
+    hsv_t   new_hsv = {hsv.h, hsv.s, hsv.v / 2};
+    rgb_t   new_rgb = hsv_to_rgb(new_hsv);
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
             uint8_t index = g_led_config.matrix_co[row][col];
             if (index >= led_min && index < led_max && index != NO_LED &&
                 keymap_key_to_keycode(layer, (keypos_t){col, row}) == XXXXXXX) {
-                rgb_matrix_set_color(index, 0, 0, 0);
+                rgb_matrix_set_color(index, new_rgb.r, new_rgb.g, new_rgb.b);
             }
         }
     }
@@ -607,6 +610,6 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             goal_color  = (hsv_t){HSV_RED};
             break;
     }
-    rgb_matrix_sethsv_noeeprom(goal_color.h, goal_color.s, RGB_MATRIX_MAXIMUM_BRIGHTNESS);
+    rgb_matrix_sethsv_noeeprom(goal_color.h, goal_color.s, RGB_MATRIX_MAXIMUM_BRIGHTNESS / 2);
     return true; // does nothing
 }
