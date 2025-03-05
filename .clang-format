@@ -4,6 +4,7 @@ AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: 'true'
 AlignConsecutiveDeclarations: 'true'
 AlignOperands: 'true'
+AlignArrayOfStructures: 'Left'
 AllowAllParametersOfDeclarationOnNextLine: 'false'
 AllowShortCaseLabelsOnASingleLine: 'false'
 AllowShortFunctionsOnASingleLine: Empty
@@ -13,7 +14,7 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: 'false'
 BinPackArguments: 'true'
 BinPackParameters: 'true'
-ColumnLimit: '1000'
+ColumnLimit: '120'
 IndentCaseLabels: 'true'
 IndentPPDirectives: AfterHash
 IndentWidth: '4'
