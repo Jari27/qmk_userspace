@@ -1,4 +1,5 @@
 #include "action_layer.h"
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 #define TAB_NXT LCTL(KC_TAB)
@@ -23,10 +24,10 @@ void render_mod_status_ctrl_shift(uint8_t modifiers);
 os_variant_t selected_os = OS_UNSURE;
 
 enum layers {
-    _DEFAULT = 0,
-    _SYM,
-    _NAV,
-    _ADJ,
+    LAYER_DEFAULT = 0,
+    LAYER_SYMBOLS,
+    LAYER_NAV,
+    LAYER_MEDIA,
 };
 
 enum custom_keycodes {
@@ -85,32 +86,32 @@ custom_shift custom_shifts[] = {
 };
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-      [_DEFAULT] = LAYOUT(
+      [LAYER_DEFAULT] = LAYOUT(
           KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
           KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
    LCTL_T(KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
           KC_LSFT, Z_UNDO, X_CUT_,  C_COPY,   V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                           OSM(MOD_LALT), KC_LGUI, MO(_SYM), KC_SPC,             KC_ENT,  MO(_NAV),KC_BSPC, KC_RGUI
+                           OSM(MOD_LALT), KC_LGUI, MO(LAYER_SYMBOLS), KC_SPC,             KC_ENT,  MO(LAYER_NAV),KC_BSPC, KC_RGUI
       ),
-      [_SYM] = LAYOUT(
+      [LAYER_SYMBOLS] = LAYOUT(
           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-          XXXXXXX, KC_GRV,  CS_LT,   CS_GT,   CS_DQUO, CS_UNDS,                           CS_AMPR, KC_LBRC, KC_RBRC, KC_QUOT, CS_PERC, XXXXXXX,
-          XXXXXXX, CS_EXLM, KC_MINS, CS_PLUS, KC_EQL,  CS_HASH,                           CS_PIPE, CS_LPRN, CS_RPRN, CS_COLN, CS_AT,   XXXXXXX,
-          XXXXXXX, CS_CIRC, KC_SLSH, CS_ASTR, KC_BSLS, CS_YUBI, _______,         _______, CS_TILD, CS_LCBR, CS_RCBR, CS_DLR,  CS_QUES, XXXXXXX,
-                                     _______, _______, _______, _______,         _______, MO(_ADJ),_______, _______
+          _______, KC_GRV,  CS_LT,   CS_GT,   CS_DQUO, CS_UNDS,                           CS_AMPR, KC_LBRC, KC_RBRC, KC_QUOT, CS_PERC, _______,
+          _______, CS_EXLM, KC_MINS, CS_PLUS, KC_EQL,  CS_HASH,                           CS_PIPE, CS_LPRN, CS_RPRN, CS_COLN, CS_AT,   _______,
+          _______, CS_CIRC, KC_SLSH, CS_ASTR, KC_BSLS, CS_YUBI, _______,         _______, CS_TILD, CS_LCBR, CS_RCBR, CS_DLR,  CS_QUES, _______,
+                                     _______, _______, _______, _______,         _______, MO(LAYER_MEDIA),_______, _______
       ),
-      [_NAV] = LAYOUT(
+      [LAYER_NAV] = LAYOUT(
           _______, _______, _______, _______, _______, _______,                           _______, _______, _______, _______, _______, _______,
-          _______, XXXXXXX, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_U,                           TAB_PRV, XXXXXXX, XXXXXXX, TAB_NXT, XXXXXXX, XXXXXXX,
-          _______, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
-          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END , XXXXXXX, XXXXXXX,
-                                    _______, _______, MO(_ADJ), _______,         _______, _______, _______, _______
+          _______, XXXXXXX, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_U,                           TAB_PRV, XXXXXXX, XXXXXXX, TAB_NXT, XXXXXXX, _______,
+          _______, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, _______,
+          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END , XXXXXXX, _______,
+                                    _______, _______, MO(LAYER_MEDIA), _______,         _______, _______, _______, _______
       ),
-      [_ADJ] = LAYOUT(
-          QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,                        CS_SWAP_OS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MSTP, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, RM_TOGG, RM_NEXT, RM_HUEU, RM_SATU, RM_VALU, XXXXXXX,
+      [LAYER_MEDIA] = LAYOUT(
+          QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, CS_SWAP_OS,                        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MSTP, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX, _______,
+          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, _______,
+          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, RM_TOGG, RM_NEXT, RM_HUEU, RM_SATU, RM_VALU, _______,
                                      _______, _______, _______, _______,         _______, _______, _______, _______
       ),
       // [_BACKUP] = LAYOUT(
@@ -328,17 +329,17 @@ void render_layer_state_user(void) {
     //     0x20, 0xdd, 0xde, 0xdf, 0x20, 0};
     // clang-format on
     switch (get_highest_layer(layer_state | default_layer_state)) {
-        case _DEFAULT:
+        case LAYER_DEFAULT:
             oled_write_P(PSTR("base "), false);
             break;
-        case _SYM:
+        case LAYER_SYMBOLS:
             oled_write_P(PSTR("sym  "), false);
             break;
-        case _NAV:
+        case LAYER_NAV:
             oled_write_P(PSTR("nav  "), false);
             break;
-        case _ADJ:
-            oled_write_P(PSTR("adj  "), false);
+        case LAYER_MEDIA:
+            oled_write_P(PSTR("media"), false);
             break;
         default:
             oled_write_P(PSTR("what?"), false);
