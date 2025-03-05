@@ -3,6 +3,8 @@
 #undef PRODUCT
 #define PRODUCT "Jari's Aurora Lily58"
 
+#define KEYMAP_VERSION "v2.1"
+
 // put your secrets (e.g. real name, phone number, etc. in here)
 #include "secrets.h"
 
@@ -26,16 +28,16 @@
 // caps word
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
+#define ONESHOT_TIMEOUT 1000
+
 // combo
 #define COMBO_TERM 20
-#define COMBO_TERM_PER_COMBO    // ability to give difficult combos a larger window
-#define COMBO_ONLY_FROM_LAYER 4 // all combos from corne layer
+// #define COMBO_TERM_PER_COMBO    // ability to give difficult combos a larger window
+#define COMBO_ONLY_FROM_LAYER 0
 
 // tap hold
 #define TAPPING_TERM 190
 #define TAPPING_TERM_PER_KEY
-
-#define ACTION_DEBUG
 
 // saving some more space
 #undef LOCKING_SUPPORT_ENABLE

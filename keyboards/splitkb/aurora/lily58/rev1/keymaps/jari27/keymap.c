@@ -26,79 +26,90 @@ enum layers {
     _SYM,
     _NAV,
     _ADJ,
-    _CORNE,
-    _CORNE_FUN,
-    _CORNE_NAV,
-    _CORNE_ADJ,
 };
 
 enum custom_keycodes {
-    KC_YUBI = SAFE_RANGE, // sends the yubikey pass
-    DCSTRNG,              // sends '"""'
+    CS_YUBI = SAFE_RANGE, // sends the yubikey pass
     CS_SWAP_OS,           // allows overriding the detected os
-    CS_LCBR,              // { (and below to release shift in the right order)
+    CS_LCBR,              // {
     CS_RCBR,              // }
     CS_LPRN,              // (
     CS_RPRN,              // )
+    CS_LT,                // <
+    CS_GT,                // >
+    CS_DQUO,              // "
+    CS_UNDS,              // _
+    CS_AMPR,              // &
+    CS_PERC,              // %
+    CS_AT,                // @
+    CS_ASTR,              // *
+    CS_PIPE,              // |
+    CS_TILD,              // ~
+    CS_COLN,              // :
+    CS_DLR,               // $
+    CS_QUES,              // $
+    CS_PLUS,              // +
+    CS_EXLM,              // !
+    CS_HASH,              // #
+    CS_CIRC,              // ^
 };
 
+typedef struct custom_shift {
+    int      cs_kc;
+    u_int8_t kc_to_shift;
+} custom_shift;
+
+custom_shift custom_shifts[] = {
+    {.cs_kc = CS_LCBR, .kc_to_shift = KC_LBRC     },
+    {.cs_kc = CS_RCBR, .kc_to_shift = KC_RBRC     },
+    {.cs_kc = CS_LPRN, .kc_to_shift = KC_9        },
+    {.cs_kc = CS_RPRN, .kc_to_shift = KC_0        },
+    {.cs_kc = CS_LT,   .kc_to_shift = KC_COMMA    },
+    {.cs_kc = CS_GT,   .kc_to_shift = KC_DOT      },
+    {.cs_kc = CS_DQUO, .kc_to_shift = KC_QUOTE    },
+    {.cs_kc = CS_UNDS, .kc_to_shift = KC_MINUS    },
+    {.cs_kc = CS_AMPR, .kc_to_shift = KC_7        },
+    {.cs_kc = CS_PERC, .kc_to_shift = KC_5        },
+    {.cs_kc = CS_AT,   .kc_to_shift = KC_2        },
+    {.cs_kc = CS_ASTR, .kc_to_shift = KC_8        },
+    {.cs_kc = CS_PIPE, .kc_to_shift = KC_BACKSLASH},
+    {.cs_kc = CS_TILD, .kc_to_shift = KC_GRAVE    },
+    {.cs_kc = CS_COLN, .kc_to_shift = KC_SEMICOLON},
+    {.cs_kc = CS_DLR,  .kc_to_shift = KC_4        },
+    {.cs_kc = CS_QUES, .kc_to_shift = KC_SLASH    },
+    {.cs_kc = CS_PLUS, .kc_to_shift = KC_EQUAL    },
+    {.cs_kc = CS_EXLM, .kc_to_shift = KC_1        },
+    {.cs_kc = CS_HASH, .kc_to_shift = KC_3        },
+    {.cs_kc = CS_CIRC, .kc_to_shift = KC_6        },
+};
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       [_DEFAULT] = LAYOUT(
           KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_GRV,
           KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                              KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_MINS,
    LCTL_T(KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, RCTL_T(KC_QUOT),
-          KC_LSFT, Z_UNDO, X_CUT_,  C_COPY,  V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+          KC_LSFT, Z_UNDO, X_CUT_,  C_COPY,   V_PASTE, KC_B, OSM(MOD_CAG),  OSM(MOD_HYPR),KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
                            OSM(MOD_LALT), KC_LGUI, MO(_SYM), KC_SPC,             KC_ENT,  MO(_NAV),KC_BSPC, KC_RGUI
       ),
       [_SYM] = LAYOUT(
           KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-          _______, KC_GRV,  KC_LT,   KC_GT,   KC_DQUO, KC_UNDS,                           KC_AMPR, KC_LBRC, KC_RBRC, DCSTRNG, KC_PERC, XXXXXXX,
-          _______, KC_EXLM, KC_MINS, KC_PLUS, KC_EQL,  KC_HASH,                           KC_PIPE, KC_LPRN, KC_RPRN, KC_COLN, KC_AT,   _______,
-          _______, KC_CIRC, KC_SLSH, KC_ASTR, KC_BSLS, KC_YUBI, _______,         _______, KC_TILD, KC_LCBR, KC_RCBR, KC_DLR,  KC_QUES, _______,
-                                     _______, _______, _______, _______,         _______, MO(_ADJ),   _______, _______
+          XXXXXXX, KC_GRV,  CS_LT,   CS_GT,   CS_DQUO, CS_UNDS,                           CS_AMPR, KC_LBRC, KC_RBRC, KC_QUOT, CS_PERC, XXXXXXX,
+          XXXXXXX, CS_EXLM, KC_MINS, CS_PLUS, KC_EQL,  CS_HASH,                           CS_PIPE, CS_LPRN, CS_RPRN, CS_COLN, CS_AT,   XXXXXXX,
+          XXXXXXX, CS_CIRC, KC_SLSH, CS_ASTR, KC_BSLS, CS_YUBI, _______,         _______, CS_TILD, CS_LCBR, CS_RCBR, CS_DLR,  CS_QUES, XXXXXXX,
+                                     _______, _______, _______, _______,         _______, MO(_ADJ),_______, _______
       ),
       [_NAV] = LAYOUT(
-          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                             KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-          _______, XXXXXXX, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_U,                           XXXXXXX, TAB_PRV, TAB_NXT, XXXXXXX, XXXXXXX, XXXXXXX,
-          _______, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, _______,
-          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______, KC_MPRV, KC_MNXT, KC_MPLY, XXXXXXX, XXXXXXX, _______,
+          _______, _______, _______, _______, _______, _______,                           _______, _______, _______, _______, _______, _______,
+          _______, XXXXXXX, KC_BTN2, KC_MS_U, KC_BTN1, KC_WH_U,                           TAB_PRV, XXXXXXX, XXXXXXX, TAB_NXT, XXXXXXX, XXXXXXX,
+          _______, XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,         _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END , XXXXXXX, XXXXXXX,
                                     _______, _______, MO(_ADJ), _______,         _______, _______, _______, _______
       ),
       [_ADJ] = LAYOUT(
-          QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,                        PDF(_CORNE), CS_SWAP_OS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, RGB_SPI, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, RGB_SPD, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD,
-                                     _______, _______, _______, _______,         _______, _______, _______, _______
-      ),
-      [_CORNE] = LAYOUT(
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          KC_TAB,  KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                           KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , XXXXXXX,
-   LCTL_T(KC_ESC), KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                           KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, RCTL_T(KC_QUOT),
-          KC_LSFT, Z_UNDO , X_CUT_ , C_COPY , V_PASTE, KC_B   , OSM(MOD_CAG), OSM(MOD_HYPR), KC_N, KC_M   , KC_COMM, KC_DOT , KC_SLSH, KC_RSFT,
-                        OSM(MOD_LALT), KC_LGUI, MO(_CORNE_FUN), KC_SPC ,         KC_ENT , OSL(_CORNE_NAV), KC_BSPC, KC_RGUI
-      ),
-      [_CORNE_FUN] = LAYOUT(
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_YUBI, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                     _______, _______, _______, _______,         _______, MO(_CORNE_ADJ), _______, _______
-      ),
-    // todo use shift with these to turn them into F keys?
-      [_CORNE_NAV] = LAYOUT(
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, KC_1,    KC_2,    KC_3,    XXXXXXX,                           KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
-          XXXXXXX, KC_0,    KC_4,    KC_5,    KC_6,    XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                              _______, _______, MO(_CORNE_ADJ), _______,         _______, _______, _______, _______
-      ),
-      [_CORNE_ADJ] = LAYOUT(
-          QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,                     PDF(_DEFAULT), CS_SWAP_OS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, XXXXXXX,                        CS_SWAP_OS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MSTP, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, RM_TOGG, RM_NEXT, RM_HUEU, RM_SATU, RM_VALU, XXXXXXX,
                                      _______, _______, _______, _______,         _______, _______, _______, _______
       ),
       // [_BACKUP] = LAYOUT(
@@ -111,68 +122,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-// combos
-// normal
-// vertical combos with higher tap term
-const uint16_t PROGMEM qw[]        = {KC_Q, KC_W, COMBO_END};
-const uint16_t PROGMEM ws[]        = {KC_W, KC_S, COMBO_END}; // left hand vertical
-const uint16_t PROGMEM sx[]        = {KC_S, KC_X, COMBO_END};
-const uint16_t PROGMEM ed[]        = {KC_E, KC_D, COMBO_END};
-const uint16_t PROGMEM dc[]        = {KC_D, KC_C, COMBO_END};
-const uint16_t PROGMEM rf[]        = {KC_R, KC_F, COMBO_END};
-const uint16_t PROGMEM fv[]        = {KC_F, KC_V, COMBO_END};
-const uint16_t PROGMEM tg[]        = {KC_T, KC_G, COMBO_END};
-const uint16_t PROGMEM we[]        = {KC_W, KC_E, COMBO_END}; // left hand horizontal
-const uint16_t PROGMEM er[]        = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM sd[]        = {KC_S, KC_D, COMBO_END};
-const uint16_t PROGMEM df[]        = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM fg[]        = {KC_F, KC_G, COMBO_END};
-const uint16_t PROGMEM xc[]        = {KC_X, KC_C, COMBO_END};
-const uint16_t PROGMEM cv[]        = {KC_C, KC_V, COMBO_END};
-const uint16_t PROGMEM sdf[]       = {KC_S, KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM yh[]        = {KC_Y, KC_H, COMBO_END}; // right hand vertical
-const uint16_t PROGMEM hn[]        = {KC_H, KC_N, COMBO_END};
-const uint16_t PROGMEM uj[]        = {KC_U, KC_J, COMBO_END};
-const uint16_t PROGMEM jm[]        = {KC_J, KC_M, COMBO_END};
-const uint16_t PROGMEM ik[]        = {KC_I, KC_K, COMBO_END};
-const uint16_t PROGMEM k_comma[]   = {KC_K, KC_COMMA, COMBO_END};
-const uint16_t PROGMEM ol[]        = {KC_O, KC_L, COMBO_END};
-const uint16_t PROGMEM l_dot[]     = {KC_L, KC_DOT, COMBO_END};
-const uint16_t PROGMEM scln_slsh[] = {KC_SCLN, KC_SLSH, COMBO_END}; // for mousekeys
-const uint16_t PROGMEM ui[]        = {KC_U, KC_I, COMBO_END};       // right hand horizontal
+const uint16_t PROGMEM ui[]        = {KC_U, KC_I, COMBO_END}; // right hand horizontal
 const uint16_t PROGMEM io[]        = {KC_I, KC_O, COMBO_END};
 const uint16_t PROGMEM hj[]        = {KC_H, KC_J, COMBO_END};
 const uint16_t PROGMEM jk[]        = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM kl[]        = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM m_comma[]   = {KC_M, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM comma_dot[] = {KC_COMMA, KC_DOT, COMBO_END};
-const uint16_t PROGMEM jkl[]       = {KC_S, KC_D, KC_F, COMBO_END};
-
+const uint16_t PROGMEM er[]        = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM cv[]        = {KC_C, KC_V, COMBO_END};
+// combos
 combo_t key_combos[] = {
-    // clang-format off
-    COMBO(ui, KC_LBRC),
-    COMBO(io, KC_RBRC),
-    COMBO(jk, CS_LPRN),
-    COMBO(kl, CS_RPRN),
-    // left
-    COMBO(df, KC_EQUAL), // most comfy positions for these three
-    COMBO(er, KC_UNDERSCORE),
-    COMBO(cv, KC_HASH),
-    COMBO(sd, KC_EXCLAIM),
-    COMBO(rf, KC_PERCENT), // also relatively comfy for vim
-    COMBO(ws, KC_MINUS), // numpad related: top is increase
-    COMBO(sx, KC_PLUS), // bottom is decrease
-    COMBO(ed, KC_SLASH), // top increase
-    COMBO(dc, KC_ASTERISK), // bottom decrease
-    COMBO(fg, KC_CIRCUMFLEX), // matched with dollar
-    // right
-    COMBO(hj, KC_DOLLAR),
-    COMBO(yh, KC_TILDE),
-    COMBO(uj, KC_AMPERSAND), // & ~ pipe in a row
-    COMBO(ik, KC_PIPE),
-    COMBO(hn, KC_GRAVE), // under tilde
-    COMBO(ol, KC_AT), // similar to old pos
-    COMBO(jm, KC_BACKSLASH) // similar to old pos
+    COMBO(ui, KC_LBRC),      COMBO(io, KC_RBRC),        COMBO(jk, CS_LPRN), COMBO(kl, CS_RPRN),
+    COMBO(m_comma, CS_LCBR), COMBO(comma_dot, CS_RCBR), COMBO(er, CS_UNDS), COMBO(cv, CS_HASH),
 };
 
 bool tap_code_with_mods(uint16_t keycode, u_int8_t mod_mask) {
@@ -186,13 +148,13 @@ bool tap_code_with_mods(uint16_t keycode, u_int8_t mod_mask) {
     return false;
 }
 
-void tap_ctl_or_cmd_with_keycode(uint16_t keycode) {
-    // used for sending ctrl/cmd + u/x/c/v
+void tap_code_for_os(uint16_t keycode) {
+    // used for sending ctrl/cmd + y/x/c/v
     // todo see if we can change this to register so we can hold it down
-    if (selected_os != OS_MACOS) {
-        tap_code16(LCTL(keycode));
-    } else {
+    if (selected_os == OS_MACOS) {
         tap_code16(LCMD(keycode));
+    } else {
+        tap_code16(LCTL(keycode));
     }
 }
 
@@ -201,7 +163,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         // deal with os swapping and modifying some keys
         case CS_SWAP_OS:
             if (record->event.pressed) {
-                selected_os = (selected_os == OS_MACOS) ? OS_WINDOWS : (selected_os == OS_WINDOWS) ? OS_LINUX : OS_MACOS;
+                selected_os = (selected_os == OS_MACOS)     ? OS_WINDOWS
+                              : (selected_os == OS_WINDOWS) ? OS_LINUX
+                                                            : OS_MACOS;
                 if (rgb_matrix_is_enabled()) {
                     hsv_t goal_color;
                     switch (selected_os) {
@@ -237,81 +201,97 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_RGUI:
             // replace RGUI with RCTL
             if (selected_os != OS_MACOS) {
-                keycode         = MOD_RCTL;
+                keycode         = KC_RCTL;
                 record->keycode = keycode;
             }
             return true;
         case Z_UNDO:
             if (!record->tap.count && record->event.pressed) {
-                tap_ctl_or_cmd_with_keycode(KC_Z);
+                tap_code_for_os(KC_Z);
                 return false;
             }
             return true;
         case X_CUT_:
             // todo see if we can handle dealing with ctrl/cmd in a better way
             if (!record->tap.count && record->event.pressed) {
-                tap_ctl_or_cmd_with_keycode(KC_X);
+                tap_code_for_os(KC_X);
                 return false;
             }
             return true;
         case C_COPY:
             if (!record->tap.count && record->event.pressed) {
-                tap_ctl_or_cmd_with_keycode(KC_C);
+                tap_code_for_os(KC_C);
                 return false;
             }
             return true;
         case V_PASTE:
             if (!record->tap.count && record->event.pressed) {
-                tap_ctl_or_cmd_with_keycode(KC_V);
+                tap_code_for_os(KC_V);
                 return false;
             }
             return true;
         // custom keys for combos
-        case CS_LCBR:
-            if (record->event.pressed) {
-                return tap_code_with_mods(KC_LBRC, MOD_MASK_SHIFT);
-            }
-            return false;
-        case CS_RCBR:
-            if (record->event.pressed) {
-                return tap_code_with_mods(KC_RBRC, MOD_MASK_SHIFT);
-            }
-            return false;
-        case CS_LPRN:
-            if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    tap_code_with_mods(KC_COMMA, MOD_MASK_SHIFT);
+        case CS_LCBR ... CS_CIRC: {
+            uint16_t base_keycode = 0;
+            for (int i = 0; i < sizeof(custom_shifts) / sizeof(custom_shifts[0]); i++) {
+                if (keycode == custom_shifts[i].cs_kc) {
+                    base_keycode = custom_shifts[i].kc_to_shift;
+                    break;
                 }
-                return tap_code_with_mods(KC_9, MOD_MASK_SHIFT);
+            }
+            if (base_keycode) {
+                if (record->event.pressed) {
+                    register_weak_mods(MOD_MASK_SHIFT);
+                    register_code16(base_keycode);
+                    // tap_code_with_mods(base_keycode, MOD_MASK_SHIFT);
+                } else {
+                    unregister_weak_mods(MOD_MASK_SHIFT);
+                    unregister_code16(base_keycode);
+                }
             }
             return false;
-        case CS_RPRN:
-            if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    tap_code_with_mods(KC_DOT, MOD_MASK_SHIFT);
+        }
+        case KC_Q:
+        case KC_H:
+            // prevent sending cmd+q/h on accident on macos
+            if (selected_os == OS_MACOS) {
+                if (get_mods() & MOD_BIT_LGUI) {
+                    return false;
                 }
-                return tap_code_with_mods(KC_0, MOD_MASK_SHIFT);
             }
             return true;
-        // macros
-        #ifdef YUBIKEY_CODE
-        case KC_YUBI:
+// macros
+#ifdef YUBIKEY_CODE
+        case CS_YUBI:
             if (record->event.pressed) {
                 SEND_STRING(YUBIKEY_CODE);
                 return false;
             }
             return false;
-        #endif /* ifdef YUBIKEY_CODE */
-        case DCSTRNG:
-            if (record->event.pressed) {
-                SEND_STRING("\"\"\"");
-                return false;
-            }
-            return false;
+#endif /* ifdef YUBIKEY_CODE */
     }
     return true;
 }
 
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            return true;
+        case KC_MINS:
+            // don't shift the minus
+            return true;
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+        default:
+            return false; // Deactivate Caps Word.
+    }
+}
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case Z_UNDO:
@@ -323,51 +303,42 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
-
-void render_current_default_layer_user(void) {
-    if (get_highest_layer(default_layer_state) == _CORNE) {
-        oled_write_P(PSTR("corne"), false);
-    } else if (get_highest_layer(default_layer_state) == _DEFAULT) {
-        oled_write_P(PSTR("lily "), false);
-    } else {
-        oled_write_P(PSTR("oops "), false);
-    }
+void render_lily(void) {
+    oled_write_ln_P("lily", false);
 }
 
 void render_layer_state_user(void) {
     // clang-format off
-    static const char PROGMEM default_layer[] = {
-        0x20, 0x94, 0x95, 0x96, 0x20,
-        0x20, 0xb4, 0xb5, 0xb6, 0x20,
-        0x20, 0xd4, 0xd5, 0xd6, 0x20, 0};
-    static const char PROGMEM upper_layer[] = {
-        0x20, 0x97, 0x98, 0x99, 0x20,
-        0x20, 0xb7, 0xb8, 0xb9, 0x20,
-        0x20, 0xd7, 0xd8, 0xd9, 0x20, 0};
-    static const char PROGMEM lower_layer[] = {
-        0x20, 0x9a, 0x9b, 0x9c, 0x20,
-        0x20, 0xba, 0xbb, 0xbc, 0x20,
-        0x20, 0xda, 0xdb, 0xdc, 0x20, 0};
-    static const char PROGMEM both_layer[] = {
-        0x20, 0x9d, 0x9e, 0x9f, 0x20,
-        0x20, 0xbd, 0xbe, 0xbf, 0x20,
-        0x20, 0xdd, 0xde, 0xdf, 0x20, 0};
+    // static const char PROGMEM default_layer[] = {
+    //     0x20, 0x94, 0x95, 0x96, 0x20,
+    //     0x20, 0xb4, 0xb5, 0xb6, 0x20,
+    //     0x20, 0xd4, 0xd5, 0xd6, 0x20, 0};
+    // static const char PROGMEM upper_layer[] = {
+    //     0x20, 0x97, 0x98, 0x99, 0x20,
+    //     0x20, 0xb7, 0xb8, 0xb9, 0x20,
+    //     0x20, 0xd7, 0xd8, 0xd9, 0x20, 0};
+    // static const char PROGMEM lower_layer[] = {
+    //     0x20, 0x9a, 0x9b, 0x9c, 0x20,
+    //     0x20, 0xba, 0xbb, 0xbc, 0x20,
+    //     0x20, 0xda, 0xdb, 0xdc, 0x20, 0};
+    // static const char PROGMEM both_layer[] = {
+    //     0x20, 0x9d, 0x9e, 0x9f, 0x20,
+    //     0x20, 0xbd, 0xbe, 0xbf, 0x20,
+    //     0x20, 0xdd, 0xde, 0xdf, 0x20, 0};
     // clang-format on
     switch (get_highest_layer(layer_state | default_layer_state)) {
-        case _NAV:
-        case _CORNE_NAV:
-            oled_write_P(lower_layer, false);
+        case _DEFAULT:
+            oled_write_P(PSTR("base "), false);
             break;
         case _SYM:
-        case _CORNE_FUN:
-            oled_write_P(upper_layer, false);
+            oled_write_P(PSTR("sym  "), false);
             break;
-        case _ADJ:
-        case _CORNE_ADJ:
-            oled_write_P(both_layer, false);
+        case _NAV:
+            oled_write_P(PSTR("nav  "), false);
             break;
         default:
-            oled_write_P(default_layer, false);
+            oled_write_P(PSTR("what?"), false);
+            break;
     }
 }
 
@@ -460,34 +431,7 @@ void render_mod_status_gui_alt_os_specific(uint8_t modifiers) {
     }
 }
 
-void render_mods_user_as_text(void) {
-    uint8_t mods = get_mods() | get_oneshot_mods();
-    if (mods & MOD_MASK_CTRL) {
-        oled_write_P(PSTR("C"), false);
-    } else {
-        oled_write_P(PSTR(" "), false);
-    }
-    if (mods & MOD_MASK_ALT) {
-        oled_write_P(PSTR("A"), false);
-    } else {
-        oled_write_P(PSTR(" "), false);
-    }
-    if (mods & MOD_MASK_GUI) {
-        oled_write_P(PSTR("G"), false);
-    } else {
-        oled_write_P(PSTR(" "), false);
-    }
-    if (mods & MOD_MASK_SHIFT) {
-        oled_write_P(PSTR("S"), false);
-    } else {
-        oled_write_P(PSTR(" "), false);
-    }
-    // finish line
-    oled_write_P(PSTR(" "), false);
-}
-
-void render_os(void) {
-    // TODO move this to glcdfont and simplify
+void render_os_logo(void) {
     // clang-format off
     static const char PROGMEM apple_art[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // whitespace to center
@@ -530,6 +474,14 @@ void render_os(void) {
     }
 }
 
+void render_version(void) {
+#ifdef KEYMAP_VERSION
+    oled_write_ln_P(KEYMAP_VERSION, false);
+#else
+    oled_write_ln_P("jari", false);
+#endif /* ifdef KEYMAP_VERSION */
+}
+
 void render_wpm(void) {
     char wpm_str[6];
     sprintf(wpm_str, "%03d", get_current_wpm());
@@ -540,17 +492,19 @@ void render_wpm(void) {
 
 bool oled_task_user(void) {
     // 5 columns, 16 rows for writing; or 32*128 in pixels
-    // definition of art is per 8 pixels vertically (0xFF is full column, 0xF0 is bottom 4 pixels, 0x01 is first pixels, etc. )
+    // definition of art is per 8 pixels vertically (0xFF is full column, 0xF0 is bottom 4 pixels, 0x01 is first
+    // pixels, etc. )
     if (is_keyboard_master()) {
-        render_logo();                       // 3
-        render_current_default_layer_user(); // 4
-        render_space();                      // 5
-        // render_mods_user_as_text();          // 6
-        render_mod_status_gui_alt_os_specific(get_mods() | get_oneshot_mods());
-        render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
-        render_space();            // 7
-        render_layer_state_user(); // 10
-        render_os();               // 12
+        render_logo();                                                          // 3
+        render_lily();                                                          // 4
+        render_space();                                                         // 5
+        render_mod_status_gui_alt_os_specific(get_mods() | get_oneshot_mods()); // 7
+        render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());          // 9
+        render_space();                                                         // 10
+        render_os_logo();                                                       // 12
+        oled_set_cursor(0, 14);                                                 // 14
+        render_layer_state_user();                                              // 15
+        render_version();                                                       // 16
     } else {
         // clang-format off
         static const char PROGMEM aurora_art[] = {
@@ -613,13 +567,12 @@ void keyboard_post_init_user(void) {
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     // red led for disabled keys on default map
     uint8_t layer = get_highest_layer(default_layer_state);
-    if (layer == _CORNE) {
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint8_t index = g_led_config.matrix_co[row][col];
-                if (index >= led_min && index < led_max && index != NO_LED && keymap_key_to_keycode(layer, (keypos_t){col, row}) == XXXXXXX) {
-                    rgb_matrix_set_color(index, rgb_matrix_get_val() / 2, 0, 0);
-                }
+    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+        for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+            uint8_t index = g_led_config.matrix_co[row][col];
+            if (index >= led_min && index < led_max && index != NO_LED &&
+                keymap_key_to_keycode(layer, (keypos_t){col, row}) == XXXXXXX) {
+                rgb_matrix_set_color(index, rgb_matrix_get_val() / 2, 0, 0);
             }
         }
     }
@@ -649,7 +602,6 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
             goal_color  = (hsv_t){HSV_RED};
             break;
     }
-    // decrease brightness
-    rgb_matrix_sethsv_noeeprom(goal_color.h, goal_color.s, RGB_MATRIX_MAXIMUM_BRIGHTNESS / 2);
+    rgb_matrix_sethsv_noeeprom(goal_color.h, goal_color.s, RGB_MATRIX_MAXIMUM_BRIGHTNESS);
     return true; // does nothing
 }
