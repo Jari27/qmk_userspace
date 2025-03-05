@@ -337,6 +337,9 @@ void render_layer_state_user(void) {
         case _NAV:
             oled_write_P(PSTR("nav  "), false);
             break;
+        case _ADJ:
+            oled_write_P(PSTR("adj  "), false);
+            break;
         default:
             oled_write_P(PSTR("what?"), false);
             break;

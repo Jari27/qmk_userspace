@@ -3,7 +3,7 @@
 #undef PRODUCT
 #define PRODUCT "Jari's Aurora Lily58"
 
-#define KEYMAP_VERSION "v2.1"
+#define KEYMAP_VERSION "v2.2"
 
 // put your secrets (e.g. real name, phone number, etc. in here)
 #include "secrets.h"
