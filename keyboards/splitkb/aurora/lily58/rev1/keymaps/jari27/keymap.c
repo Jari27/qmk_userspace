@@ -109,8 +109,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       ),
       [LAYER_MEDIA] = LAYOUT(
           QK_BOOT, EE_CLR,  DB_TOGG, XXXXXXX, XXXXXXX, CS_SWAP_OS,                        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MSTP, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX, _______,
-          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, _______,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MSTP, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX, XXXXXXX,
+          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                           KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, XXXXXXX, XXXXXXX,
           _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,         XXXXXXX, RM_TOGG, RM_NEXT, RM_HUEU, RM_SATU, RM_VALU, _______,
                                      _______, _______, _______, _______,         _______, _______, _______, _______
       ),
