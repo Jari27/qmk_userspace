@@ -1,3 +1,4 @@
+#include "action_layer.h"
 #include QMK_KEYBOARD_H
 
 #define TAB_NXT LCTL(KC_TAB)
@@ -566,7 +567,7 @@ void keyboard_post_init_user(void) {
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     // red led for disabled keys on default map
-    uint8_t layer = get_highest_layer(default_layer_state);
+    uint8_t layer = get_highest_layer(layer_state | default_layer_state);
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
             uint8_t index = g_led_config.matrix_co[row][col];
