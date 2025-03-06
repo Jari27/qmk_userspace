@@ -275,21 +275,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
-        // Keycodes that continue Caps Word, with shift applied.
+        // continue and apply shift
         case KC_A ... KC_Z:
-            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            add_weak_mods(MOD_BIT(KC_LSFT)); // apply shift to next key.
             return true;
+        // keys that are unmodified but also don't break caps word
         case KC_MINS:
-            // don't shift the minus
-            return true;
-        // Keycodes that continue Caps Word, without shifting.
         case KC_1 ... KC_0:
         case KC_BSPC:
         case KC_DEL:
         case KC_UNDS:
+        case CS_UNDS:
             return true;
         default:
-            return false; // Deactivate Caps Word.
+            return false; // deactivate Caps Word.
     }
 }
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
