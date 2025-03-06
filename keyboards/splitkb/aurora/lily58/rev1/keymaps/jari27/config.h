@@ -3,7 +3,7 @@
 #undef PRODUCT
 #define PRODUCT "Jari's Aurora Lily58"
 
-#define KEYMAP_VERSION "v2.5"
+#define KEYMAP_VERSION "v2.6"
 
 // put your secrets (e.g. real name, phone number, etc. in here)
 #include "secrets.h"
@@ -28,7 +28,7 @@
 // caps word
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
-#define ONESHOT_TIMEOUT 1000
+#define ONESHOT_TIMEOUT 2000
 
 // combo
 #define COMBO_TERM 20

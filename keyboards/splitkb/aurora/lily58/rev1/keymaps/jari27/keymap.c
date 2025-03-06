@@ -1,5 +1,3 @@
-#include "action_layer.h"
-#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 #define TAB_NXT LCTL(KC_TAB)
@@ -132,7 +130,7 @@ const uint16_t PROGMEM kl[]        = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM m_comma[]   = {KC_M, KC_COMMA, COMBO_END};
 const uint16_t PROGMEM comma_dot[] = {KC_COMMA, KC_DOT, COMBO_END};
 const uint16_t PROGMEM er[]        = {KC_E, KC_R, COMBO_END};
-const uint16_t PROGMEM cv[]        = {KC_C, KC_V, COMBO_END};
+const uint16_t PROGMEM cv[]        = {KC_C, V_PASTE, COMBO_END};
 // combos
 combo_t key_combos[] = {
     COMBO(ui, KC_LBRC),      COMBO(io, KC_RBRC),        COMBO(jk, CS_LPRN), COMBO(kl, CS_RPRN),
